@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Student Details</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Get Student Details</h2>
+
+        <form>
+            <div class="form-group">
+                <label for="studentId">Enter Student ID:</label>
+                <input type="text" class="form-control" id="studentId" required>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="getStudentDetails()">Get Details</button>
+        </form>
+
+        <div id="studentDetails" class="mt-4"></div>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js links (required for Bootstrap functionality) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function getStudentDetails() {
+            const studentId = document.getElementById("studentId").value;
+    
+            fetch(`your_api_gateway_endpoint_to_getStudentDetailsById?id=${studentId}`, {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => {
+                const detailsContainer = document.getElementById("studentDetails");
+                detailsContainer.innerHTML = '';
+    
+                
+                    const detailsHTML = `
+                        <p><strong>ID:</strong> ${data.id}</p>
+                        <p><strong>Name:</strong> ${data.name}</p>
+                        <p><strong>CGPA:</strong> ${data.cgpa}</p>
+                        <p><strong>Mobile:</strong> ${data.mobile}</p>
+                        <p><strong>Email:</strong> ${data.email}</p>
+                        <p><strong>Blood Group:</strong> ${data.bloodgroup}</p>
+                    `;
+                    detailsContainer.innerHTML = detailsHTML;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+    
+
+</body>
+</html>

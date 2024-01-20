@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="bg-light" style="display:flex;align-items: center;justify-content: center   ;">
+<div >
+    <div class="container mt-4 ">
+        <h2 class="text-center mb-4">Student Details Form</h2>
+
+        <form id="registrationForm" style="width: 400px;">
+            <div class="form-group">
+                <label for="id">ID:</label>
+                <input type="text" class="form-control" id="id" name="id" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cgpa">CGPA:</label>
+                <input type="text" class="form-control" id="cgpa" name="cgpa" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile:</label>
+                <input type="text" class="form-control" id="mobile" name="mobile" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bloodGroup">Blood Group:</label>
+                <input type="text" class="form-control" id="bloodgroup" name="bloodgroup" required>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="registerStudent()">Submit</button>
+        </form>
+    </div>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js links (required for Bootstrap functionality) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+         function registerStudent() {
+            const form = document.getElementById("registrationForm");
+            const formData = new FormData(form);
+
+            const studentData = {};
+            formData.forEach((value, key) => {
+                studentData[key] = value;
+            });
+
+            fetch('your_api_gateway_endpoint_to_addStudentDetails', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(studentData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // You can handle success actions here
+                showSuccessAlert();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // You can handle error actions here
+            });
+        }
+
+        function showSuccessAlert() {
+            const alertContainer = document.createElement("div");
+            alertContainer.className = "alert alert-success mt-3";
+            alertContainer.textContent = "Student details submitted successfully!";
+
+            const form = document.getElementById("registrationForm");
+            form.parentNode.insertBefore(alertContainer, form.nextSibling);
+
+            // Remove the alert after a few seconds (optional)
+            setTimeout(() => {
+                alertContainer.remove();
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
